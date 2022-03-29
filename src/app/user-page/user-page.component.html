@@ -1,0 +1,61 @@
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-md-2 d-md-block bg-light sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="redirect" routerLink="/user">
+              <i class="fas fa-sign-out-alt"></i>profile
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="redirect" routerLink="/main-site">
+              <i class="fas fa-sign-out-alt"></i>Shop
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="authService.SignOut()">
+              <i class="fas fa-sign-out-alt"></i>Log out
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <div class="inner-adjust">
+        <div class="pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">User Profile</h1>
+        </div>
+        <div class="row" *ngIf="authService.userData as user">
+          <div class="col-md-12">
+            <div class="media">
+              <div class="media-body">
+                <p>Email: <strong>{{user.email}}</strong></p>
+              </div>
+              <div class="media-body">
+                <p>Address: <strong>{{user.address}}</strong></p>
+              </div>
+              <form>
+                <mat-form-field appearance="fill">
+                  <mat-label>City</mat-label>
+                  <input matInput #city>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label>Street</mat-label>
+                  <input matInput #street>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label>House number</mat-label>
+                  <input matInput #number>
+                </mat-form-field>
+              </form>
+              <button mat-raised-button color="primary" class="btn btnPrimary" value="Sign Up" (click)="authService.SaveAddress(this.user ,city.value, street.value, number.value, true)">
+                Change Address
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

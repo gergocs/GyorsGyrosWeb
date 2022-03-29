@@ -1,25 +1,46 @@
+<div *ngIf="authService.wait" class="center">
+  <mat-spinner></mat-spinner>
+</div>
+<div id="main-page">
+<h1>GyorsGyros</h1>
+<div class="panel panel-default" [ngStyle]="{'background-image': getUrl(), 'background-repeat': 'no-repeat', 'height':'800px', 'background-size': '100% 800px'}">
 <div class="displayTable">
   <div class="displayTableCell">
     <div class="authBlock">
       <h3>Sign In</h3>
+      <form>
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+                 placeholder="Ex.pat@example.com" #userEmail>
+          <mat-hint>Errors appear instantly!</mat-hint>
+          <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="emailFormControl.hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Password</mat-label>
+          <input type="password" matInput [formControl]="passwordFormControl" [errorStateMatcher]="matcher"
+                 placeholder="Alma1234" #userPwd>
+          <mat-hint>Errors appear instantly!</mat-hint>
+          <mat-error *ngIf="passwordFormControl.hasError('password') && !passwordFormControl.hasError('required')">
+            Please enter a valid password
+          </mat-error>
+          <mat-error *ngIf="passwordFormControl.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </form>
       <div class="formGroup">
-        <input type="text" class="formControl" placeholder="Username" #userName required>
-      </div>
-      <div class="formGroup">
-        <input type="password" class="formControl" placeholder="Password" #userPassword required>
-      </div>
-      <!-- Calling SignIn Api from AuthService -->
-      <div class="formGroup">
-        <input type="button" class="btn btnPrimary" value="Log in" (click)="authService.SignIn(userName.value, userPassword.value)">
-      </div>
-      <div class="formGroup">
-        <span class="or"><span class="orInner">Or</span></span>
-      </div>
-      <!-- Calling GoogleAuth Api from AuthService -->
-      <div class="formGroup">
-        <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
-          <i class="fab fa-google-plus-g"></i>
-          Log in with Google
+        <button mat-raised-button color="primary" class="btn btnPrimary" value="Sign In"
+                (click)="authService.SignIn(userEmail.value, userPwd.value)">Sign In
+        </button>
+        <button mat-raised-button class="btn googleBtn" (click)="authService.GoogleAuth()">
+          <img src="assets/google.png" alt="Sign In with google" style="width:50px;height:50px;">
         </button>
       </div>
       <div class="forgotPassword">
@@ -27,7 +48,14 @@
       </div>
     </div>
     <div class="redirectToLogin">
-      <span>Don't have an account?<span class="redirect" routerLink="/register-user"> Sign Up</span></span>
+      <span>Already have an account?
+        <button mat-raised-button color="primary" class="btn btnPrimary redirect" routerLink="/register-user">Sign Up</button>
+      </span>
     </div>
   </div>
+</div>
+</div>
+<div class="footer">
+  Jogi cuccok
+</div>
 </div>

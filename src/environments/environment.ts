@@ -15,7 +15,6 @@ export const environment = {
     measurementId: "G-5QGW6HKL1N"
   }
 };
-//databaseURL: "https://bookshop-7c5f7-default-rtdb.europe-west1.firebasedatabase.app/",
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

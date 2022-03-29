@@ -1,0 +1,38 @@
+::ng-deep body,
+::ng-deep html {
+  height:100%;
+  margin: 0;
+}
+
+.panel-default {
+  height: 100%;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #00c4ff;
+}
+
+.displayTable {
+  background-color: rgba(129, 128, 128, 0.48);
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: xxx-large;
+}
+
+h3 {
+  font-size: xx-large;
+  color: purple;
+}

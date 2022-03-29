@@ -16,6 +16,18 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { MainSiteComponent } from './main-site/main-site.component';
 import { AuthService } from "./shared/services/auth.service";
 import {AppRoutingModule} from "./app-routing";
+import { UserPageComponent } from './user-page/user-page.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatIconModule} from "@angular/material/icon";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatCardModule} from "@angular/material/card";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -24,7 +36,8 @@ import {AppRoutingModule} from "./app-routing";
     SignUpComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
-    MainSiteComponent
+    MainSiteComponent,
+    UserPageComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),
@@ -33,7 +46,18 @@ import {AppRoutingModule} from "./app-routing";
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatCardModule,
+    MatProgressSpinnerModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
