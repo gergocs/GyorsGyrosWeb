@@ -3,18 +3,16 @@
   height:100%;
   margin: 0;
 }
-
-.panel-default {
-  height: 100%;
-}
-
-.footer {
+footer {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .panel {
+  position: absolute;
+  top: 200px;
+  left: 45vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,18 +20,32 @@
 }
 
 h1 {
+  clear: both;
+  color: purple;
+  font-family: monospace;
+  font-style: italic;
+  text-align: center;
+  font-size: 100px;
+  margin-top: 20px;
+}
+
+.title{
+  overflow:hidden;
   display: flex;
+  position: relative;
+  top: 10px;
+  min-height:100px;
   justify-content: center;
-  align-items: center;
-  font-size: xxx-large;
+  background-color: rgba(129, 128, 128, 0.8);
 }
 
 h3 {
   font-size: xx-large;
-  color: purple;
+  color: wheat;
 }
 
 .displayTable {
+  clear: both;
   background-color: rgba(129, 128, 128, 0.48);
 }
 

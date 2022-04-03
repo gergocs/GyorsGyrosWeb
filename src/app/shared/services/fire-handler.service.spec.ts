@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ReadFromFireService } from './readfromfire.service';
+import { FireHandlerService } from './fire-handler.service';
 
-describe('ReadFromFireService', () => {
-  let service: ReadFromFireService;
+describe('FireHandlerService', () => {
+  let service: FireHandlerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ReadFromFireService);
+    service = TestBed.inject(FireHandlerService);
   });
 
   it('should be created', () => {

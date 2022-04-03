@@ -13,25 +13,59 @@
   <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="redirect" routerLink="/user">
-          <i class="fas fa-sign-out-alt"></i>profile
+        <a class="nav-link redirect" routerLink="/user">
+          <i class="fas fa-sign-out-alt"></i>	<mat-icon>account_circle</mat-icon>
         </a>
       </li>
       <li class="nav-item">
-        <a class="redirect" routerLink="/main-site">
-          <i class="fas fa-sign-out-alt"></i>Shop
+        <a class="nav-link redirect" routerLink="/main-site">
+          <i class="fas fa-sign-out-alt"></i>	<mat-icon>home</mat-icon>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" (click)="authService.SignOut()">
-          <i class="fas fa-sign-out-alt"></i>Log out
+          <i class="fas fa-sign-out-alt"></i><mat-icon>exit_to_app</mat-icon>
         </a>
       </li>
     </ul>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div class="content mat-elevation-z8">
-      Main content here!
+    <div>
+      <button mat-raised-button color="primary" class="btn btnPrimary redirect" value="Cart" routerLink="/cart">
+        <mat-icon>shopping_cart</mat-icon>
+      </button>
+    </div>
+    <div class="card-deck-container mat-elevation-z4">
+      <div *ngFor="let food of foods" class="card-item">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title class="md-card-title">{{food.name}}</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-subtitle>{{food.price}}</mat-card-subtitle>
+          <div class="float-child">
+            <img mat-card-image [src]="food.image" alt="Image of the food">
+          </div>
+          <div class="float-child">
+            <mat-card-content>
+              <div class="card-text-content">
+                {{this.arrayPipe.transform(food.ingredients)}}
+              </div>
+            </mat-card-content>
+          </div>
+
+          <mat-card-actions align="end" style="clear:both">
+            <!--<input matInput [(ngModel)]="portion" type="number">-->
+            <button mat-raised-button color="primary" (click)="addToCart(food)">+</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+    <div class="paginator mat-elevation-z4" *ngIf="foods.length !== 0">
+      <mat-paginator
+        [length]="foods.length"
+        [pageSize]="10">
+      </mat-paginator>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

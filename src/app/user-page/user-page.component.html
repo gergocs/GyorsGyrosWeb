@@ -1,26 +1,35 @@
-<div class="container-fluid">
-  <div class="row">
-    <nav class="col-md-2 d-md-block bg-light sidebar">
-      <div class="sidebar-sticky">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="redirect" routerLink="/user">
-              <i class="fas fa-sign-out-alt"></i>profile
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="redirect" routerLink="/main-site">
-              <i class="fas fa-sign-out-alt"></i>Shop
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" (click)="authService.SignOut()">
-              <i class="fas fa-sign-out-alt"></i>Log out
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+<mat-toolbar class="mat-elevation-z8">
+  <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+    <mat-icon *ngIf="!sidenav.opened">
+      menu
+    </mat-icon>
+    <mat-icon *ngIf="sidenav.opened">
+      close
+    </mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-sidenav-container class="main">
+  <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link redirect" routerLink="/user">
+          <i class="fas fa-sign-out-alt"></i>	<mat-icon>account_circle</mat-icon>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link redirect" routerLink="/main-site">
+          <i class="fas fa-sign-out-alt"></i>	<mat-icon>home</mat-icon>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="authService.SignOut()">
+          <i class="fas fa-sign-out-alt"></i><mat-icon>exit_to_app</mat-icon>
+        </a>
+      </li>
+    </ul>
+  </mat-sidenav>
+  <mat-sidenav-content>
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div class="inner-adjust">
         <div class="pt-3 pb-2 mb-3 border-bottom">
@@ -57,5 +66,5 @@
         </div>
       </div>
     </main>
-  </div>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -2,20 +2,22 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from "../shared/services/auth.service";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {MatSidenav} from "@angular/material/sidenav";
+import {FireHandlerService} from "../shared/services/fire-handler.service";
 
 @Component({
-  selector: 'app-user-page',
-  templateUrl: './user-page.component.html',
-  styleUrls: ['./user-page.component.css']
+  selector: 'app-cart',
+  templateUrl: './cart.component.html',
+  styleUrls: ['./cart.component.css']
 })
-export class UserPageComponent implements OnInit {
-
+export class CartComponent implements OnInit {
   showFiller = false;
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
 
-  constructor(public authService: AuthService, private breakpointObserver: BreakpointObserver) {}
-  ngOnInit(): void {}
+  constructor(public authService: AuthService, private breakpointObserver: BreakpointObserver, public reader: FireHandlerService) { }
+
+  ngOnInit(): void {
+  }
 
   ngAfterViewInit() {
     setTimeout(() => {

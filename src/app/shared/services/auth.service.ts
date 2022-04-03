@@ -4,14 +4,14 @@ import * as auth from 'firebase/auth';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFirestore, AngularFirestoreDocument,} from '@angular/fire/compat/firestore';
 import {Router} from '@angular/router';
-import {WriteToFireService} from './write-to-fire.service';
 import firebase from "firebase/compat";
+import {FireHandlerService} from "./fire-handler.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  userData: any;
+  public userData: any;
   public wait: boolean;
 
   constructor(public afs: AngularFirestore, public afAuth: AngularFireAuth, public router: Router, public ngZone: NgZone) {
@@ -145,8 +145,8 @@ export class AuthService {
   }
 
   SaveAddress(user: firebase.User | null, city: string, street: string, address: string, redirect: boolean) {
-    const writer = new WriteToFireService(this.afs);
-    writer.saveDataToFire("users", user, city + " " + street + " " + address);
+    let reader = new FireHandlerService(this.afs, this);
+    reader.saveDataToFire("users", user, city + " " + street + " " + address);
     if(redirect){
       this.router.navigate(['main-site']);
     }

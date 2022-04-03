@@ -19,7 +19,7 @@ import {AppRoutingModule} from "./app-routing";
 import { UserPageComponent } from './user-page/user-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatExpansionModule} from "@angular/material/expansion";
@@ -28,6 +28,9 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatCardModule} from "@angular/material/card";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import { ArrayPipe } from './shared/pipes/array.pipe';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,9 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     ForgotPasswordComponent,
     VerifyEmailComponent,
     MainSiteComponent,
-    UserPageComponent
+    UserPageComponent,
+    ArrayPipe,
+    CartComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),
@@ -57,9 +62,11 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatToolbarModule,
     MatSidenavModule,
     MatCardModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
+    FormsModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, ArrayPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

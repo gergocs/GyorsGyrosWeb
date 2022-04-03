@@ -1,0 +1,35 @@
+<mat-toolbar class="mat-elevation-z8">
+  <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+    <mat-icon *ngIf="!sidenav.opened">
+      menu
+    </mat-icon>
+    <mat-icon *ngIf="sidenav.opened">
+      close
+    </mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-sidenav-container class="main">
+  <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link redirect" routerLink="/user">
+          <i class="fas fa-sign-out-alt"></i>	<mat-icon>account_circle</mat-icon>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link redirect" routerLink="/main-site">
+          <i class="fas fa-sign-out-alt"></i>	<mat-icon>home</mat-icon>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="authService.SignOut()">
+          <i class="fas fa-sign-out-alt"></i><mat-icon>exit_to_app</mat-icon>
+        </a>
+      </li>
+    </ul>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    alma
+  </mat-sidenav-content>
+</mat-sidenav-container>

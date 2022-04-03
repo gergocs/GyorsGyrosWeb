@@ -1,4 +1,4 @@
-export interface ingredients {
+export interface Ingredient {
   name: string;
   spicy: boolean;
 }

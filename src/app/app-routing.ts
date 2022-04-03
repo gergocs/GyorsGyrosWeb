@@ -7,6 +7,7 @@ import { UserPageComponent } from './user-page/user-page.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { AuthGuard } from './shared/guard/auth.guard';
+import {CartComponent} from "./cart/cart.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'register-user', component: SignUpComponent },
   { path: 'main-site', component: MainSiteComponent, canActivate: [AuthGuard] },
   { path: 'user', component: UserPageComponent, canActivate: [AuthGuard] },
+  { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'verify-email-address', component: VerifyEmailComponent },
 ];
