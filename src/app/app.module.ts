@@ -31,6 +31,10 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { ArrayPipe } from './shared/pipes/array.pipe';
 import { CartComponent } from './cart/cart.component';
+import {MatStepperModule} from "@angular/material/stepper";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { SemicolonPipe } from './shared/pipes/semicolon.pipe';
+import {MatRadioModule} from "@angular/material/radio";
 
 @NgModule({
   declarations: [
@@ -42,30 +46,34 @@ import { CartComponent } from './cart/cart.component';
     MainSiteComponent,
     UserPageComponent,
     ArrayPipe,
-    CartComponent
+    CartComponent,
+    SemicolonPipe
   ],
-  imports: [
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule,
-    AngularFirestoreModule,
-    AngularFireStorageModule,
-    AngularFireDatabaseModule,
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatExpansionModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatCardModule,
-    MatProgressSpinnerModule,
-    MatPaginatorModule,
-    FormsModule
-  ],
+    imports: [
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFireAuthModule,
+        AngularFirestoreModule,
+        AngularFireStorageModule,
+        AngularFireDatabaseModule,
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatButtonModule,
+        MatExpansionModule,
+        MatIconModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatCardModule,
+        MatProgressSpinnerModule,
+        MatPaginatorModule,
+        FormsModule,
+        MatStepperModule,
+        MatAutocompleteModule,
+        MatRadioModule
+    ],
   providers: [AuthService, ArrayPipe],
   bootstrap: [AppComponent]
 })

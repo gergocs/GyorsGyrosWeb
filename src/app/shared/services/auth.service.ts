@@ -21,6 +21,12 @@ export class AuthService {
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
         JSON.parse(localStorage.getItem('user')!);
+        /*this.afs.collection("users").doc(this.userData.uid).ref.get().then(function (doc){
+          if (doc.exists) {
+            // @ts-ignore
+            this.userData.address = doc.data().address;
+          }
+        })*/
         this.afs.collection("users").doc(this.userData.uid).get().subscribe((snapshot) => {
           const address = snapshot.data();
           if (!address) {
@@ -41,8 +47,7 @@ export class AuthService {
   SignIn(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
-      .then(async (result) => {
-        this.SetUserData(result.user);
+      .then(async () => {
         this.wait = true;
         let element = document.getElementById('main-page');
         // @ts-ignore
@@ -130,7 +135,7 @@ export class AuthService {
       email: user.email,
       displayName: user.displayName,
       emailVerified: user.emailVerified,
-      address: user.address == undefined ? "" : user.address,
+      address: user.address,
     };
     return userRef.set(userData, {
       merge: true,
@@ -146,7 +151,7 @@ export class AuthService {
 
   SaveAddress(user: firebase.User | null, city: string, street: string, address: string, redirect: boolean) {
     let reader = new FireHandlerService(this.afs, this);
-    reader.saveDataToFire("users", user, city + " " + street + " " + address);
+    reader.saveDataToFire("users", user, city + ", " + street + ", " + address);
     if(redirect){
       this.router.navigate(['main-site']);
     }

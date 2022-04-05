@@ -3,6 +3,12 @@ import {AuthService} from "../shared/services/auth.service";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {MatSidenav} from "@angular/material/sidenav";
 import {FireHandlerService} from "../shared/services/fire-handler.service";
+import {FormBuilder, FormControl, Validators} from "@angular/forms";
+import {map, Observable} from "rxjs";
+import {StepperOrientation} from "@angular/cdk/stepper";
+import {Food} from "../shared/services/model/food";
+import {ArrayPipe} from "../shared/pipes/array.pipe";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-cart',
@@ -14,7 +20,54 @@ export class CartComponent implements OnInit {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
 
-  constructor(public authService: AuthService, private breakpointObserver: BreakpointObserver, public reader: FireHandlerService) { }
+  cart: Food[] = [];
+
+  stepperOrientation: Observable<StepperOrientation>;
+  cityOptions: any;
+  streetOptions: any;
+  numberOptions: any;
+
+  phoneController: any;
+  numberController: any;
+  streetController: any;
+  cityController: any;
+  payment: string = "card";
+
+  constructor(public authService: AuthService, private breakpointObserver: BreakpointObserver, public reader: FireHandlerService, private _formBuilder: FormBuilder, public arrayPipe: ArrayPipe, public router: Router) {
+    setTimeout(() => {
+      reader.cart$.subscribe((res) => {
+        let cart = res.cart.split(",");
+        setTimeout(() => {
+          reader.food$.subscribe((res) => {
+            // @ts-ignore
+            if (cart.includes(res.name)) {
+              for (let i = 0; i < cart.length; i++){
+                // @ts-ignore
+                if (cart[i] === res.name){
+                  // @ts-ignore
+                  this.cart.push(res);
+                }
+              }
+            }
+          });
+        });
+      });
+    });
+    this.stepperOrientation = breakpointObserver
+      .observe('(min-width: 800px)')
+      .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
+
+    this.cityOptions = [authService.userData.address.split(", ")[0]];
+    this.streetOptions = [authService.userData.address.split(", ")[1]];
+    this.numberOptions = [authService.userData.address.split(", ")[2]];
+
+    this.cityController = new FormControl('', [Validators.required, Validators.maxLength(30)]);
+    this.streetController = new FormControl('', [Validators.required, Validators.maxLength(50)]);
+    this.numberController = new FormControl('', [Validators.required, Validators.maxLength(10)]);
+    this.phoneController = new FormControl('', [Validators.required, Validators.maxLength(13)]);
+
+    this.payment
+  }
 
   ngOnInit(): void {
   }
@@ -31,5 +84,24 @@ export class CartComponent implements OnInit {
         }
       });
     });
+  }
+
+  placeOrder(address: string, phone: string) {
+    console.log(this.payment);
+    console.log(address);
+    console.log(phone);
+  }
+
+  removeFromCart(food: Food) {
+    this.cart.splice(this.cart.indexOf(food), 1);
+    let value = "";
+    for (let i = 0; i < this.cart.length; i++){
+      value += this.cart[i].name + ",";
+    }
+    if (value.endsWith(",")){
+      value = value.slice(0, -1)
+    }
+    this.reader.updateCart(value);
+    this.router.navigate(['main-site']);
   }
 }

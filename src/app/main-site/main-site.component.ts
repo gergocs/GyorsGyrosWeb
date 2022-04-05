@@ -20,7 +20,6 @@ export class MainSiteComponent {
   portion = 1;
 
   constructor(public authService: AuthService, private breakpointObserver: BreakpointObserver, public arrayPipe: ArrayPipe, public reader: FireHandlerService) {
-    reader.cart$.subscribe(  (res) => console.log(res));
     reader.food$.subscribe(  (res) => {
       // @ts-ignore
       this.foods.push(res);

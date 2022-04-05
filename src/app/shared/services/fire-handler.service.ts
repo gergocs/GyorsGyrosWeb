@@ -83,4 +83,8 @@ export class FireHandlerService {
     }
   }
 
+  updateCart(cart: string){
+    this.cartCollectionRef.doc(this.authService.userData.uid).update({cart: cart}).then(r => r);
+  }
+
 }
