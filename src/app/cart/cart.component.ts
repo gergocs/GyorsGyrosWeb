@@ -56,7 +56,7 @@ export class CartComponent implements OnInit {
 
     this.delay(1000).then(() => {
       if (this.cart.length == 0) {
-        this.router.navigate(['main-site']);
+        this.router.navigate(['main-site']).then(() => {});
       }
     });
 
@@ -82,10 +82,10 @@ export class CartComponent implements OnInit {
       this.breakpointObserver.observe(['(max-width: 800px)']).subscribe((res) => {
         if (res.matches) {
           this.sidenav.mode = 'over';
-          this.sidenav.close();
+          this.sidenav.close().then(() => {});
         } else {
           this.sidenav.mode = 'side';
-          this.sidenav.open();
+          this.sidenav.open().then(() => {});
         }
       });
     });
@@ -107,7 +107,7 @@ export class CartComponent implements OnInit {
 
     this.reader.createNewOrder(new Order(this.authService.userData.uid.toString(), address, phone, items, this.price, currentDate.getTime(), this.payment));
     this.reader.deleteCart();
-    this.router.navigate(['main-site']);
+    this.router.navigate(['main-site']).then(() => {});
   }
 
   removeFromCart(food: Food) {
@@ -120,7 +120,7 @@ export class CartComponent implements OnInit {
       value = value.slice(0, -1)
     }
     this.reader.updateCart(value);
-    this.router.navigate(['main-site']);
+    this.router.navigate(['main-site']).then(() => {});
   }
 
 }

@@ -21,12 +21,6 @@ export class AuthService {
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
         JSON.parse(localStorage.getItem('user')!);
-        /*this.afs.collection("users").doc(this.userData.uid).ref.get().then(function (doc){
-          if (doc.exists) {
-            // @ts-ignore
-            this.userData.address = doc.data().address;
-          }
-        })*/
         this.afs.collection("users").doc(this.userData.uid).get().subscribe((snapshot) => {
           const address = snapshot.data();
           if (!address) {
@@ -68,9 +62,9 @@ export class AuthService {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        this.SendVerificationMail();
+        this.SendVerificationMail().then(() => {});
         this.SaveAddress(result.user, city, street, address, false);
-        this.SetUserData(result.user);
+        this.SetUserData(result.user).then(() => {});
       })
       .catch((error) => {
         window.alert(error.message);
@@ -81,7 +75,7 @@ export class AuthService {
     return this.afAuth.currentUser
       .then((u: any) => u.sendEmailVerification())
       .then(() => {
-        this.router.navigate(['verify-email-address']);
+        this.router.navigate(['verify-email-address']).then(() => {});
       });
   }
 
@@ -104,7 +98,7 @@ export class AuthService {
   GoogleAuth() {
     return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
       if (res) {
-        this.router.navigate(['main-site']);
+        this.router.navigate(['main-site']).then(() => {});
       }
     });
   }
@@ -114,9 +108,9 @@ export class AuthService {
       .signInWithPopup(provider)
       .then((result) => {
         this.ngZone.run(() => {
-          this.router.navigate(['main-site']);
+          this.router.navigate(['main-site']).then(() => {});
         });
-        this.SetUserData(result.user);
+        this.SetUserData(result.user).then(() => {});
       })
       .catch((error) => {
         window.alert(error);
@@ -142,15 +136,15 @@ export class AuthService {
   SignOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      this.router.navigate(['sign-in']);
+      this.router.navigate(['sign-in']).then(() => {});
     });
   }
 
   SaveAddress(user: firebase.User | null, city: string, street: string, address: string, redirect: boolean) {
     let reader = new FireHandlerService(this.afs, this);
-    reader.saveDataToFire("users", user, city + ", " + street + ", " + address);
+    reader.saveDataToFire("users", user, city + ", " + street + ", " + address).then(() => {});
     if(redirect){
-      this.router.navigate(['main-site']);
+      this.router.navigate(['main-site']).then(() => {});
     }
   }
 }

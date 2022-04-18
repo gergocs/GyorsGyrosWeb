@@ -34,10 +34,10 @@ export class UserPageComponent implements OnInit {
       this.breakpointObserver.observe(['(max-width: 800px)']).subscribe((res) => {
         if (res.matches) {
           this.sidenav.mode = 'over';
-          this.sidenav.close();
+          this.sidenav.close().then(() => {});
         } else {
           this.sidenav.mode = 'side';
-          this.sidenav.open();
+          this.sidenav.open().then(() => {});
         }
       });
     });

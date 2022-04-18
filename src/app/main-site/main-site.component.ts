@@ -34,17 +34,17 @@ export class MainSiteComponent {
       this.breakpointObserver.observe(['(max-width: 800px)']).subscribe((res) => {
         if (res.matches) {
           this.sidenav.mode = 'over';
-          this.sidenav.close();
+          this.sidenav.close().then(() => {});
         } else {
           this.sidenav.mode = 'side';
-          this.sidenav.open();
+          this.sidenav.open().then(() => {});
         }
       });
     });
   }
 
   addToCart(food: Food){
-    this.reader.saveDataToFire("cart", this.authService.userData, food.name);
+    this.reader.saveDataToFire("cart", this.authService.userData, food.name).then(() => {});
   }
 
 }
