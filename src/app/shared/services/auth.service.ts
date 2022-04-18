@@ -49,9 +49,6 @@ export class AuthService {
       .signInWithEmailAndPassword(email, password)
       .then(async () => {
         this.wait = true;
-        let element = document.getElementById('main-page');
-        // @ts-ignore
-        element.className = "blur";
         await this.delay(1000);
         this.wait = false;
         this.ngZone.run(() => {

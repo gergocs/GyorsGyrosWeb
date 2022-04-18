@@ -35,6 +35,7 @@ import {MatStepperModule} from "@angular/material/stepper";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { SemicolonPipe } from './shared/pipes/semicolon.pipe';
 import {MatRadioModule} from "@angular/material/radio";
+import {DatePipe} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -74,7 +75,7 @@ import {MatRadioModule} from "@angular/material/radio";
         MatAutocompleteModule,
         MatRadioModule
     ],
-  providers: [AuthService, ArrayPipe],
+  providers: [AuthService, ArrayPipe, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

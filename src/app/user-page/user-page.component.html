@@ -65,6 +65,24 @@
           </div>
         </div>
       </div>
+      <div class="card-deck-container mat-elevation-z4">
+        <div *ngFor="let order of orders" class="card-item">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title class="md-card-title">{{datePipe.transform(order.date, "long")}}</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-subtitle>{{order.price}}</mat-card-subtitle>
+            <div class="float-child">
+              <mat-card-content>
+                <div class="card-text-content">
+                  {{order.items}}
+                </div>
+              </mat-card-content>
+            </div>
+          </mat-card>
+        </div>
+      </div>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

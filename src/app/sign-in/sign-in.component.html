@@ -1,7 +1,7 @@
 <div *ngIf="authService.wait" class="center">
   <mat-spinner></mat-spinner>
 </div>
-<div id="main-page"   [ngStyle]="{'background-image': getUrl(), 'background-repeat': 'no-repeat', 'height':'1000px', 'background-size': '100% 800px'}">
+<div [ngClass]="authService.wait ? 'blur' : ''"  [ngStyle]="{'background-image': getUrl(), 'background-repeat': 'no-repeat', 'height':'1000px', 'background-size': '100% 800px'}">
 <div class="title">
   <h1>GyorsGyros</h1>
 </div>

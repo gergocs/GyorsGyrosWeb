@@ -2,6 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from "../shared/services/auth.service";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {MatSidenav} from "@angular/material/sidenav";
+import {FireHandlerService} from "../shared/services/fire-handler.service";
+import {Order} from "../shared/services/model/order";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-user-page',
@@ -9,12 +12,21 @@ import {MatSidenav} from "@angular/material/sidenav";
   styleUrls: ['./user-page.component.css']
 })
 export class UserPageComponent implements OnInit {
-
   showFiller = false;
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
 
-  constructor(public authService: AuthService, private breakpointObserver: BreakpointObserver) {}
+  orders: Order[] = [];
+
+  constructor(public authService: AuthService, private breakpointObserver: BreakpointObserver, private reader: FireHandlerService, public datePipe: DatePipe) {
+    setTimeout(() => {
+      reader.order$.subscribe(results => {
+        results.forEach(res => {
+          this.orders.push(res);
+        });
+      });
+    });
+  }
   ngOnInit(): void {}
 
   ngAfterViewInit() {
