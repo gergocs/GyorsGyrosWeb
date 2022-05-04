@@ -16,6 +16,18 @@ export class SignInComponent implements OnInit {
 
   matcher = new CustomErrorStateMatcher();
 
+  signIn(email: string, password: string){
+    let tmp = this.authService.SignIn(email, password)
+      .then(() => {
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    tmp.catch((e) => {
+      console.log(e);
+    })
+  }
+
   getUrl() {
     return "url('../../assets/background.jpg')";
   }

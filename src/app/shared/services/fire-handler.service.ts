@@ -8,7 +8,6 @@ import {Ingredient} from "./model/ingredient";
 import {User} from "./model/user";
 import {Order} from "./model/order";
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -22,8 +21,10 @@ export class FireHandlerService {
   cart$: Observable<Cart>;
   food$: Observable<Food[]>;
   order$: Observable<Order[]>;
+  wait: boolean;
 
   constructor(private db: AngularFirestore, public authService: AuthService) {
+    this.wait = false;
 
     this.cartCollectionRef = this.db.collection("cart");
     this.foodCollectionRef = this.db.collection("food");
@@ -31,30 +32,36 @@ export class FireHandlerService {
     this.userCollectionRef = this.db.collection("users");
     this.orderCollectionRef = this.db.collection<Order>("order");
 
-    this.cart$ = this.db.collection<Cart>('cart', ref => ref.where("uid", "==", authService.userData.uid).limit(1))
-      .valueChanges()
-      .pipe(
-        flatMap(cart => cart)
-      );
+    if (authService.userData !== undefined) {
+      this.cart$ = this.db.collection<Cart>('cart', ref => ref.where("uid", "==", authService.userData.uid).limit(1))
+        .valueChanges()
+        .pipe(
+          flatMap(cart => cart)
+        );
 
-    this.order$ = this.db.collection<Order>('order', ref => ref.where("uid", "==", authService.userData.uid)).valueChanges();
+      this.order$ = this.db.collection<Order>('order', ref => ref.where("uid", "==", authService.userData.uid).orderBy("date", "desc")).valueChanges();
 
-    this.food$ = this.db.collection<Food[]>('food').valueChanges().pipe(flatMap(food => {
-      for (let i = 0; i < food.length; i++) {
-        // @ts-ignore
-        let ingredients = food[i].ingredients;
-        // @ts-ignore
-        food[i].ingredients = [];
-        // @ts-ignore
-        ingredients.forEach((ingredient) => {
-          this.ingredientCollectionRef.doc<Ingredient>(ingredient.toString()).ref.get().then(function (doc) {
-            // @ts-ignore
-            food[i].ingredients.push(doc.data());
-          })
-        });
-      }
-      return food;
-    }));
+      this.food$ = this.db.collection<Food[]>('food', ref => ref.orderBy("name", "asc")).valueChanges().pipe(flatMap(food => {
+        for (let i = 0; i < food.length; i++) {
+          // @ts-ignore
+          let ingredients = food[i].ingredients;
+          // @ts-ignore
+          food[i].ingredients = [];
+          // @ts-ignore
+          ingredients.forEach((ingredient) => {
+            this.ingredientCollectionRef.doc<Ingredient>(ingredient.toString()).ref.get().then(function (doc) {
+              // @ts-ignore
+              food[i].ingredients.push(doc.data());
+            })
+          });
+        }
+        return food;
+      }));
+    } else {
+      this.cart$ = new Observable<Cart>();
+      this.food$ = new Observable<Food[]>();
+      this.order$ = new Observable<Order[]>();
+    }
   }
 
   private async delay(ms: number) {
@@ -63,7 +70,8 @@ export class FireHandlerService {
 
   async saveDataToFire(type: string, ...data: any[]) {
     if (type === "users") {
-      this.userCollectionRef.doc(data[0]?.uid).update({
+      this.userCollectionRef.doc(data[0]?.uid).set({
+        uid: data[0]?.uid,
         address: data[1]
       })
         .then(() => {
@@ -74,11 +82,17 @@ export class FireHandlerService {
     } else if (type === "cart") {
       let tmp = "";
       this.cart$.subscribe((res) => {
-        tmp += res.cart + (res.cart == "" ? "" : ",") + data[1];
+        tmp += res.cart + (res.cart == "" ? "" : ",");
       });
+      this.wait = true;
       await this.delay(1000);
-      this.db.collection(type).doc(data[0]?.uid).update({
-        cart: tmp
+      this.wait = false;
+      tmp += data[1];
+      this.db.collection(type).doc(data[0]?.uid).set({
+        cart: tmp,
+        uid: data[0]?.uid
+      }, {
+        merge: true
       })
         .then(() => {
         })
@@ -92,7 +106,7 @@ export class FireHandlerService {
     this.cartCollectionRef.doc(this.authService.userData.uid).update({cart: cart}).then(r => r);
   }
 
-  deleteCart(){
+  deleteCart() {
     this.cartCollectionRef.doc(this.authService.userData.uid).delete().then(r => r);
   }
 

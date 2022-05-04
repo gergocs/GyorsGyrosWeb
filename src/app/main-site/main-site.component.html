@@ -1,3 +1,8 @@
+<div *ngIf="reader.wait" class="center">
+  <mat-spinner></mat-spinner>
+</div>
+<div [ngClass]="reader.wait ? 'blur' : ''"  [ngStyle]="{'background-repeat': 'no-repeat', 'height':'1000px', 'background-size': '100% 800px'}">
+
 <mat-toolbar class="mat-elevation-z8">
   <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
     <mat-icon *ngIf="!sidenav.opened">
@@ -44,7 +49,12 @@
 
           <mat-card-subtitle>{{food.price}}</mat-card-subtitle>
           <div class="float-child">
-            <img mat-card-image [src]="food.image" alt="Image of the food">
+            <div *ngIf="food.image">
+              <img mat-card-image [src]="food.image" alt="Image of the food">
+            </div>
+            <div *ngIf="food.image==''">
+              <img mat-card-image src="assets/gyros.jpg" alt="Image of the food">
+            </div>
           </div>
           <div class="float-child">
             <mat-card-content>
@@ -55,8 +65,9 @@
           </div>
 
           <mat-card-actions align="end" style="clear:both">
-            <!--<input matInput [(ngModel)]="portion" type="number">-->
-            <button mat-raised-button color="primary" (click)="addToCart(food)">+</button>
+            <div *ngIf="!reader.wait">
+              <button mat-raised-button color="primary" (click)="addToCart(food)">+</button>
+            </div>
           </mat-card-actions>
         </mat-card>
       </div>
@@ -69,3 +80,4 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+</div>

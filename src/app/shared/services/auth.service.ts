@@ -1,6 +1,5 @@
 import {Injectable, NgZone} from '@angular/core';
 import {User} from './model/user';
-import * as auth from 'firebase/auth';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFirestore, AngularFirestoreDocument,} from '@angular/fire/compat/firestore';
 import {Router} from '@angular/router';
@@ -38,8 +37,8 @@ export class AuthService {
   }
 
 
-  SignIn(email: string, password: string) {
-    return this.afAuth
+  async SignIn(email: string, password: string) {
+    return await this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then(async () => {
         this.wait = true;
@@ -48,59 +47,36 @@ export class AuthService {
         this.ngZone.run(() => {
           this.router.navigate(['main-site']);
         });
+      }, reason => {
+        window.alert("Something went wrong");
       })
       .catch(e =>{
-        console.log(e)
+        window.alert("Something went wrong");
       })
   }
 
   private async delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   SignUp(email: string, password: string, city: string, street: string, address: string) {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        this.SendVerificationMail().then(() => {});
-        this.SaveAddress(result.user, city, street, address, false);
-        this.SetUserData(result.user).then(() => {});
+        this.SetUserData(result.user, city + ", " + street + ", " + address).then(() => {
+        });
+        this.router.navigate(['sign-in']);
+      }, (response) => {
+        window.alert("Invalid Email or Password")
       })
       .catch((error) => {
         window.alert(error.message);
       });
   }
 
-  SendVerificationMail() {
-    return this.afAuth.currentUser
-      .then((u: any) => u.sendEmailVerification())
-      .then(() => {
-        this.router.navigate(['verify-email-address']).then(() => {});
-      });
-  }
-
-  ForgotPassword(passwordResetEmail: string) {
-    return this.afAuth
-      .sendPasswordResetEmail(passwordResetEmail)
-      .then(() => {
-        window.alert('Password reset email sent, check your inbox.');
-      })
-      .catch((error) => {
-        window.alert(error);
-      });
-  }
-
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
-    return user !== null && user.emailVerified !== false;
-  }
-
-  GoogleAuth() {
-    return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
-      if (res) {
-        this.router.navigate(['main-site']).then(() => {});
-      }
-    });
+    return user !== null;
   }
 
   AuthLogin(provider: any) {
@@ -108,25 +84,26 @@ export class AuthService {
       .signInWithPopup(provider)
       .then((result) => {
         this.ngZone.run(() => {
-          this.router.navigate(['main-site']).then(() => {});
+          this.router.navigate(['main-site']).then(() => {
+          });
         });
-        this.SetUserData(result.user).then(() => {});
+        this.SetUserData(result.user, "").then(() => {
+        });
+      }, (response) => {
+        window.alert("Invalid Email or Password")
       })
       .catch((error) => {
         window.alert(error);
       });
   }
 
-  SetUserData(user: any) {
+  SetUserData(user: any, address: string) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
     );
     const userData: User = {
       uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      emailVerified: user.emailVerified,
-      address: user.address,
+      address: address,
     };
     return userRef.set(userData, {
       merge: true,
@@ -136,15 +113,24 @@ export class AuthService {
   SignOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      this.router.navigate(['sign-in']).then(() => {});
+      this.router.navigate(['sign-in']).then(() => {
+      });
     });
   }
 
   SaveAddress(user: firebase.User | null, city: string, street: string, address: string, redirect: boolean) {
+    console.log(city);
+    console.log(street);
+    console.log(address);
+
     let reader = new FireHandlerService(this.afs, this);
-    reader.saveDataToFire("users", user, city + ", " + street + ", " + address).then(() => {});
-    if(redirect){
-      this.router.navigate(['main-site']).then(() => {});
+    reader.saveDataToFire("users", user, city + ", " + street + ", " + address).then(() => {
+    });
+    if (redirect) {
+      this.SignOut().then(r => {
+        this.router.navigate(['sign-in']).then(() => {
+        });
+      });
     }
   }
 }

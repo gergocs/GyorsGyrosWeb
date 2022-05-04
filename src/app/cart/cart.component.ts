@@ -36,6 +36,9 @@ export class CartComponent implements OnInit {
   payment: string = "card";
 
   constructor(public authService: AuthService, private breakpointObserver: BreakpointObserver, public reader: FireHandlerService, private _formBuilder: FormBuilder, public arrayPipe: ArrayPipe, public router: Router) {
+    if (authService.userData === undefined){
+      this.router.navigate(['sign-in']);
+    }
     this.reader.cart$.subscribe((res) => {
       let cart = res.cart.split(",");
       this.reader.food$.subscribe((res) => {

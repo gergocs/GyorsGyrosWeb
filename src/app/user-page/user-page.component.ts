@@ -5,6 +5,7 @@ import {MatSidenav} from "@angular/material/sidenav";
 import {FireHandlerService} from "../shared/services/fire-handler.service";
 import {Order} from "../shared/services/model/order";
 import {DatePipe} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-page',
@@ -18,7 +19,10 @@ export class UserPageComponent implements OnInit {
 
   orders: Order[] = [];
 
-  constructor(public authService: AuthService, private breakpointObserver: BreakpointObserver, private reader: FireHandlerService, public datePipe: DatePipe) {
+  constructor(public authService: AuthService, private breakpointObserver: BreakpointObserver, private reader: FireHandlerService, public datePipe: DatePipe, public router: Router) {
+    if (authService.userData === undefined){
+      this.router.navigate(['sign-in']);
+    }
     setTimeout(() => {
       reader.order$.subscribe(results => {
         results.forEach(res => {

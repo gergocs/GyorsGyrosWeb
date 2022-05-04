@@ -11,8 +11,6 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environments/environment';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { MainSiteComponent } from './main-site/main-site.component';
 import { AuthService } from "./shared/services/auth.service";
 import {AppRoutingModule} from "./app-routing";
@@ -42,8 +40,6 @@ import {DatePipe} from "@angular/common";
     AppComponent,
     SignInComponent,
     SignUpComponent,
-    ForgotPasswordComponent,
-    VerifyEmailComponent,
     MainSiteComponent,
     UserPageComponent,
     ArrayPipe,

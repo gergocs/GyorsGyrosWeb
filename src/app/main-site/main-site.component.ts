@@ -5,6 +5,7 @@ import {BreakpointObserver} from "@angular/cdk/layout";
 import {Food} from "../shared/services/model/food"
 import {ArrayPipe} from "../shared/pipes/array.pipe";
 import {FireHandlerService} from "../shared/services/fire-handler.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-main-site',
@@ -19,7 +20,10 @@ export class MainSiteComponent {
   public foods: Food[] = [];
   portion = 1;
 
-  constructor(public authService: AuthService, private breakpointObserver: BreakpointObserver, public arrayPipe: ArrayPipe, public reader: FireHandlerService) {
+  constructor(public authService: AuthService, private breakpointObserver: BreakpointObserver, public arrayPipe: ArrayPipe, public reader: FireHandlerService, public router: Router) {
+    if (authService.userData === undefined){
+      this.router.navigate(['sign-in']);
+    }
     reader.food$.subscribe((res) => {
       // @ts-ignore
       this.foods.push(res);
