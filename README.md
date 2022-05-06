@@ -1,4 +1,4 @@
-# GyorsGyros
+# GyorsGyros Csizi Gergő (AWR2BO)
 
 If there is question please open an Issue
 
