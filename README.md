@@ -1,5 +1,7 @@
 # GyorsGyros
 
+If there is question please open an Issue
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.0.
 
 ## Website
